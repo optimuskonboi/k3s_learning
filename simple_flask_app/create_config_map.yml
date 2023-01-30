@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config-map
+data:
+  USER: phamvandan
+  PASS: nothing

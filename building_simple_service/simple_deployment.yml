@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod-label: nginx-pod
+  template: # pod defination
+    metadata: 
+      name: my-pod
+      labels:
+        app: backend
+        pod-label: nginx-pod
+    spec:
+      volumes:
+      - name: cert-volume
+        secret:
+          secretName: "secret-nginx-cert" 
+      containers:
+      - name: nginx
+        image: phamvandan/mynginx:latest
+        ports:
+        - containerPort: 8555
+        - containerPort: 8556
+        volumeMounts:
+        - mountPath: "/certs"
+          name: cert-volume 

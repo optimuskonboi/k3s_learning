@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment-2
+  labels:
+    app: flask-deployment-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod-label: flask-pod-2
+  template: # pod defination
+    metadata: 
+      name: my-pod-2
+      labels:
+        app: backend
+        pod-label: flask-pod-2
+    spec:
+      # volumes:
+      # - name: cert-volume
+      #   secret:
+      #     secretName: "secret-nginx-cert" 
+      containers:
+      - name: flask-container-2
+        image: rapidfort/flaskapp:latest
+        ports:
+        - containerPort: 8556
+        # - containerPort: 8556
+        # volumeMounts:
+        # - mountPath: "/certs"
+        #   name: cert-volume 
+        volumeMounts:
+          - name: flask-pvc-storage
+            mountPath: /application
+        envFrom: # using envFrom instead of env
+        - configMapRef: # referencing the ConfigMap
+            name: flask-config-map # name of the ConfigMap
+
+        command: ["/bin/sh", "-c"]
+        args: ["ls; echo $(USER) $(PASS);python app_simple_2.py"]
+        
+      volumes:
+        - name: flask-pvc-storage
+          persistentVolumeClaim:
+            claimName:  flask-pvc

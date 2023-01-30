@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80        # service port
+    targetPort: 8555    # pod port
+    protocol: TCP
+    name: service-http
+    # nodePort: 31000   # cổng NODE ánh xạ vào cổng dịch vụ (chỉ chọn 30000-32767)
+
+  # - port: 443       # service port
+  #   targetPort: 443 # pod port
+  #   protocol: TCP
+  #   name: service-https
+    # nodePort: 31443
+  # Chú ý đúng với Label của POD tại Deployment
+  selector:
+    pod-label: nginx-pod

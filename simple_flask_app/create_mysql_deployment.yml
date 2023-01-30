@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod-label: mysql-pod
+  template: # pod defination
+    metadata: 
+      name: mysql-pod
+      labels:
+        app: backend
+        pod-label: mysql-pod
+    spec:
+      # volumes:
+      # - name: cert-volume
+      #   secret:
+      #     secretName: "secret-nginx-cert" 
+      containers:
+      - name: mysql-container
+        image: mysql:5.6
+        ports:
+        - containerPort: 3306
+        # - containerPort: 8556
+        # volumeMounts:
+        # - mountPath: "/certs"
+        #   name: cert-volume 
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: flask-secret
+              key: author
+
+        volumeMounts:
+          - name: flask-pvc-storage
+            mountPath: /var/lib/mysql
+
+        # command: ["/bin/sh", "-c"]
+        # args: ["ls; echo $(USER) $(PASS);python app_simple.py"]
+        
+      volumes:
+        - name: flask-pvc-storage
+          persistentVolumeClaim:
+            claimName:  flask-pvc

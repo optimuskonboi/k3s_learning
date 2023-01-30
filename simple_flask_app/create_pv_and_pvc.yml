@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: flaskapp-pv
+  labels:
+    type: local
+spec:
+  storageClassName: flask-pv-class
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/supersaiyan/Documents/Dan/k3s_test/simple_flask_app/pv"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: flask-pvc
+spec:
+  storageClassName: flask-pv-class
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
