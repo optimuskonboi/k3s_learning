@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: test-ingress
-  namespace: nginx-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
@@ -12,7 +11,7 @@ spec:
   #     - phamvandan.test
   #     secretName: secret-nginx-cert
   rules:
-  - host: phamvandan.test
+  - host: localhost
     http:
       paths:
       - path: /simple-flask-app(/|$)(.*)

@@ -18,13 +18,14 @@ def hehe():
 config = {
         'user': 'root',
         'password': 'phamvandan',
-        'host': '10.43.99.1',
-        'port': '3306',
+        'host': '42.96.43.141',
+        'port': '31000',
         # 'database': DBNAME
     }
 
 def delete_database():
     results = [{'abc':'123'}]
+    print('connect')
     connection = mysql.connector.connect(**config)
     print(connection)
     cursor = connection.cursor()
@@ -69,6 +70,12 @@ def test_table() -> List[Dict]:
     connection.close()
 
     return results
+
+@app.route('/create_new_db')
+def create_new_db():
+    create_database()
+    create_table()
+    return "ok"
 
 @app.route('/refresh_database')
 def refresh_database():
