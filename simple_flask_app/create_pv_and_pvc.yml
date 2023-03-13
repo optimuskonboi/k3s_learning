@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/home/supersaiyan/Documents/Dan/k3s_test/simple_flask_app/pv"
+    path: "/root/k3s_learning/simple_flask_app/pv"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
