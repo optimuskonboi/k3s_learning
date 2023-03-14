@@ -14,8 +14,11 @@ spec:
           containers:
           - name: busybox
             image: busybox
+            imagePullPolicy: IfNotPresent
             args:
             - /bin/sh
             - -c
             - date; echo "Job in CronJob"
           restartPolicy: Never
+          nodeSelector:
+            newlabel: wk01
